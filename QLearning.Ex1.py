@@ -15,12 +15,12 @@ import time
 STATES_SIZE = 6  # the length of the 1 dimensional world
 ACTION = ["left", "right"]  # available actions
 EPSILON = 0.9  # greedy police
-MAX_ITERATION = 15
+MAX_ITERATION = 20
 GAMMA = 0.9  # discount factor
 ALPHA = 0.1  # learning rate
 FRESH_TIME = 0.3
 
-np.random.seed(2)
+np.random.seed(1008)
 
 # define q-table
 def build_q_table(states_size, action):
@@ -75,7 +75,6 @@ def RL():
 
         S = 0  # initial position
         is_terminated = False
-        env(S, iteration, step_counter + 1)
         while not is_terminated:
 
             A = choose_action(S, q_table)
@@ -87,11 +86,9 @@ def RL():
                 q_real = R
                 is_terminated = True
 
-            # print(q_real)
             q_table.loc[S, A] += ALPHA * (q_real - q_est)
-            # print(S, S_)
-            # print(q_table)
             S = S_
+
             env(S, iteration, step_counter + 1)
             step_counter += 1
     return q_table
